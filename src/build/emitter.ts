@@ -669,7 +669,7 @@ export function emitWebIdl(
   }
 
 function acceptsUrl(p: Browser.Param) {
-  return p.name.toLowerCase().includes("url") && p.type === "USVString";
+  return p.name.toLowerCase().includes("url") && p.type === "USVString" || p.type === "RequestInfo";
 }
 
   /// Generate the parameters string for function signatures
