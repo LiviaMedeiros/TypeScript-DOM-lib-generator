@@ -668,11 +668,16 @@ export function emitWebIdl(
     return { ...t, subtype: undefined, type };
   }
 
+function acceptsUrl(p: Browser.Param) {
+  p = p;
+  return false;
+}
+
   /// Generate the parameters string for function signatures
   function paramsToString(ps: Browser.Param[]) {
     function paramToString(p: Browser.Param) {
       p = resolvePromise(p);
-      if (p.name.toLowerCase().includes("url") && p.type === "USVString") {
+      if (acceptsUrl(p)) {
         p = { ...p, additionalTypes: [...(p.additionalTypes ?? [])] };
         p.additionalTypes!.push("URL");
       }
