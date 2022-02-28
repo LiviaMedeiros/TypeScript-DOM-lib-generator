@@ -4542,7 +4542,7 @@ interface Document extends Node, DocumentAndElementEventHandlers, DocumentOrShad
      * @param replace Specifies whether the existing entry for the document is replaced in the history list.
      */
     open(unused1?: string, unused2?: string): Document;
-    open(url: string, name: string, features: string): WindowProxy | null;
+    open(url: string | URL, name: string, features: string): WindowProxy | null;
     /**
      * Returns a Boolean value that indicates whether a specified command can be successfully executed using execCommand, given the current state of the document.
      * @param commandId Specifies a command identifier.
@@ -4995,7 +4995,7 @@ interface EventSource extends EventTarget {
 
 declare var EventSource: {
     prototype: EventSource;
-    new(url: string, eventSourceInitDict?: EventSourceInit): EventSource;
+    new(url: string | URL, eventSourceInitDict?: EventSourceInit): EventSource;
     readonly CLOSED: number;
     readonly CONNECTING: number;
     readonly OPEN: number;
@@ -8305,8 +8305,8 @@ interface History {
     back(): void;
     forward(): void;
     go(delta?: number): void;
-    pushState(data: any, unused: string, url?: string | null): void;
-    replaceState(data: any, unused: string, url?: string | null): void;
+    pushState(data: any, unused: string, url?: string | URL | null): void;
+    replaceState(data: any, unused: string, url?: string | URL | null): void;
 }
 
 declare var History: {
@@ -8947,11 +8947,11 @@ interface Location {
      */
     search: string;
     /** Navigates to the given URL. */
-    assign(url: string): void;
+    assign(url: string | URL): void;
     /** Reloads the current page. */
     reload(): void;
     /** Removes the current page from the session history and navigates to the given URL. */
-    replace(url: string): void;
+    replace(url: string | URL): void;
 }
 
 declare var Location: {
@@ -9691,7 +9691,7 @@ interface Navigator extends NavigatorAutomationInformation, NavigatorConcurrentH
     getGamepads(): (Gamepad | null)[];
     /** Available only in secure contexts. */
     requestMediaKeySystemAccess(keySystem: string, supportedConfigurations: MediaKeySystemConfiguration[]): Promise<MediaKeySystemAccess>;
-    sendBeacon(url: string, data?: BodyInit | null): boolean;
+    sendBeacon(url: string | URL, data?: BodyInit | null): boolean;
     /** Available only in secure contexts. */
     share(data?: ShareData): Promise<void>;
     vibrate(pattern: VibratePattern): boolean;
@@ -9712,7 +9712,7 @@ interface NavigatorConcurrentHardware {
 
 interface NavigatorContentUtils {
     /** Available only in secure contexts. */
-    registerProtocolHandler(scheme: string, url: string): void;
+    registerProtocolHandler(scheme: string, url: string | URL): void;
 }
 
 interface NavigatorCookies {
@@ -11282,7 +11282,7 @@ declare var Response: {
     prototype: Response;
     new(body?: BodyInit | null, init?: ResponseInit): Response;
     error(): Response;
-    redirect(url: string, status?: number): Response;
+    redirect(url: string | URL, status?: number): Response;
 };
 
 /** Provides access to the properties of <a> element, as well as methods to manipulate them. */
@@ -13162,9 +13162,9 @@ interface ServiceWorkerContainer extends EventTarget {
     onmessage: ((this: ServiceWorkerContainer, ev: MessageEvent) => any) | null;
     onmessageerror: ((this: ServiceWorkerContainer, ev: MessageEvent) => any) | null;
     readonly ready: Promise<ServiceWorkerRegistration>;
-    getRegistration(clientURL?: string): Promise<ServiceWorkerRegistration | undefined>;
+    getRegistration(clientURL?: string | URL): Promise<ServiceWorkerRegistration | undefined>;
     getRegistrations(): Promise<ReadonlyArray<ServiceWorkerRegistration>>;
-    register(scriptURL: string, options?: RegistrationOptions): Promise<ServiceWorkerRegistration>;
+    register(scriptURL: string | URL, options?: RegistrationOptions): Promise<ServiceWorkerRegistration>;
     startMessages(): void;
     addEventListener<K extends keyof ServiceWorkerContainerEventMap>(type: K, listener: (this: ServiceWorkerContainer, ev: ServiceWorkerContainerEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
     addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
@@ -13241,7 +13241,7 @@ interface SharedWorker extends EventTarget, AbstractWorker {
 
 declare var SharedWorker: {
     prototype: SharedWorker;
-    new(scriptURL: string, options?: string | WorkerOptions): SharedWorker;
+    new(scriptURL: string | URL, options?: string | WorkerOptions): SharedWorker;
 };
 
 interface Slottable {
@@ -13504,7 +13504,7 @@ interface StorageEvent extends Event {
     readonly storageArea: Storage | null;
     /** Returns the URL of the document whose storage item changed. */
     readonly url: string;
-    initStorageEvent(type: string, bubbles?: boolean, cancelable?: boolean, key?: string | null, oldValue?: string | null, newValue?: string | null, url?: string, storageArea?: Storage | null): void;
+    initStorageEvent(type: string, bubbles?: boolean, cancelable?: boolean, key?: string | null, oldValue?: string | null, newValue?: string | null, url?: string | URL, storageArea?: Storage | null): void;
 }
 
 declare var StorageEvent: {
@@ -14010,7 +14010,7 @@ interface URL {
 
 declare var URL: {
     prototype: URL;
-    new(url: string, base?: string | URL): URL;
+    new(url: string | URL, base?: string | URL): URL;
     createObjectURL(obj: Blob | MediaSource): string;
     revokeObjectURL(url: string): void;
 };
@@ -16227,7 +16227,7 @@ interface WebSocket extends EventTarget {
 
 declare var WebSocket: {
     prototype: WebSocket;
-    new(url: string, protocols?: string | string[]): WebSocket;
+    new(url: string | URL, protocols?: string | string[]): WebSocket;
     readonly CLOSED: number;
     readonly CLOSING: number;
     readonly CONNECTING: number;
@@ -16347,7 +16347,7 @@ interface Window extends EventTarget, AnimationFrameProvider, GlobalEventHandler
     matchMedia(query: string): MediaQueryList;
     moveBy(x: number, y: number): void;
     moveTo(x: number, y: number): void;
-    open(url?: string, target?: string, features?: string): WindowProxy | null;
+    open(url?: string | URL, target?: string, features?: string): WindowProxy | null;
     /**
      * Posts a message to the given window. Messages can be structured objects, e.g. nested objects and arrays, can contain JavaScript values (strings, numbers, Date objects, etc), and can contain certain data objects such as File Blob, FileList, and ArrayBuffer objects.
      *
@@ -16486,7 +16486,7 @@ interface Worker extends EventTarget, AbstractWorker {
 
 declare var Worker: {
     prototype: Worker;
-    new(scriptURL: string, options?: WorkerOptions): Worker;
+    new(scriptURL: string | URL, options?: WorkerOptions): Worker;
 };
 
 /** Available only in secure contexts. */
@@ -16498,7 +16498,7 @@ interface Worklet {
      *
      * Any failures in fetching the script or its dependencies will cause the returned promise to be rejected with an "AbortError" DOMException. Any errors in parsing the script or its dependencies will cause the returned promise to be rejected with the exception generated during parsing.
      */
-    addModule(moduleURL: string, options?: WorkletOptions): Promise<void>;
+    addModule(moduleURL: string | URL, options?: WorkletOptions): Promise<void>;
 }
 
 declare var Worklet: {
@@ -16623,8 +16623,8 @@ interface XMLHttpRequest extends XMLHttpRequestEventTarget {
      *
      * Throws an "InvalidAccessError" DOMException if async is false, current global object is a Window object, and the timeout attribute is not zero or the responseType attribute is not the empty string.
      */
-    open(method: string, url: string): void;
-    open(method: string, url: string, async: boolean, username?: string | null, password?: string | null): void;
+    open(method: string, url: string | URL): void;
+    open(method: string, url: string | URL, async: boolean, username?: string | null, password?: string | null): void;
     /**
      * Acts as if the `Content-Type` header value for a response is mime. (It does not change the header.)
      *
@@ -17393,7 +17393,7 @@ declare function getSelection(): Selection | null;
 declare function matchMedia(query: string): MediaQueryList;
 declare function moveBy(x: number, y: number): void;
 declare function moveTo(x: number, y: number): void;
-declare function open(url?: string, target?: string, features?: string): WindowProxy | null;
+declare function open(url?: string | URL, target?: string, features?: string): WindowProxy | null;
 /**
  * Posts a message to the given window. Messages can be structured objects, e.g. nested objects and arrays, can contain JavaScript values (strings, numbers, Date objects, etc), and can contain certain data objects such as File Blob, FileList, and ArrayBuffer objects.
  *

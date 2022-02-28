@@ -876,7 +876,7 @@ interface Clients {
     claim(): Promise<void>;
     get(id: string): Promise<Client | undefined>;
     matchAll<T extends ClientQueryOptions>(options?: T): Promise<ReadonlyArray<T["type"] extends "window" ? WindowClient : Client>>;
-    openWindow(url: string): Promise<WindowClient | null>;
+    openWindow(url: string | URL): Promise<WindowClient | null>;
 }
 
 declare var Clients: {
@@ -1379,7 +1379,7 @@ interface EventSource extends EventTarget {
 
 declare var EventSource: {
     prototype: EventSource;
-    new(url: string, eventSourceInitDict?: EventSourceInit): EventSource;
+    new(url: string | URL, eventSourceInitDict?: EventSourceInit): EventSource;
     readonly CLOSED: number;
     readonly CONNECTING: number;
     readonly OPEN: number;
@@ -2703,7 +2703,7 @@ declare var Response: {
     prototype: Response;
     new(body?: BodyInit | null, init?: ResponseInit): Response;
     error(): Response;
-    redirect(url: string, status?: number): Response;
+    redirect(url: string | URL, status?: number): Response;
 };
 
 /** Inherits from Event, and represents the event object of an event sent on a document or worker when its content security policy is violated. */
@@ -2768,9 +2768,9 @@ interface ServiceWorkerContainer extends EventTarget {
     onmessage: ((this: ServiceWorkerContainer, ev: MessageEvent) => any) | null;
     onmessageerror: ((this: ServiceWorkerContainer, ev: MessageEvent) => any) | null;
     readonly ready: Promise<ServiceWorkerRegistration>;
-    getRegistration(clientURL?: string): Promise<ServiceWorkerRegistration | undefined>;
+    getRegistration(clientURL?: string | URL): Promise<ServiceWorkerRegistration | undefined>;
     getRegistrations(): Promise<ReadonlyArray<ServiceWorkerRegistration>>;
-    register(scriptURL: string, options?: RegistrationOptions): Promise<ServiceWorkerRegistration>;
+    register(scriptURL: string | URL, options?: RegistrationOptions): Promise<ServiceWorkerRegistration>;
     startMessages(): void;
     addEventListener<K extends keyof ServiceWorkerContainerEventMap>(type: K, listener: (this: ServiceWorkerContainer, ev: ServiceWorkerContainerEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
     addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
@@ -3045,7 +3045,7 @@ interface URL {
 
 declare var URL: {
     prototype: URL;
-    new(url: string, base?: string | URL): URL;
+    new(url: string | URL, base?: string | URL): URL;
     createObjectURL(obj: Blob): string;
     revokeObjectURL(url: string): void;
 };
@@ -5148,7 +5148,7 @@ interface WebSocket extends EventTarget {
 
 declare var WebSocket: {
     prototype: WebSocket;
-    new(url: string, protocols?: string | string[]): WebSocket;
+    new(url: string | URL, protocols?: string | string[]): WebSocket;
     readonly CLOSED: number;
     readonly CLOSING: number;
     readonly CONNECTING: number;
@@ -5160,7 +5160,7 @@ interface WindowClient extends Client {
     readonly focused: boolean;
     readonly visibilityState: DocumentVisibilityState;
     focus(): Promise<WindowClient>;
-    navigate(url: string): Promise<WindowClient | null>;
+    navigate(url: string | URL): Promise<WindowClient | null>;
 }
 
 declare var WindowClient: {
@@ -5212,7 +5212,7 @@ interface Worker extends EventTarget, AbstractWorker {
 
 declare var Worker: {
     prototype: Worker;
-    new(scriptURL: string, options?: WorkerOptions): Worker;
+    new(scriptURL: string | URL, options?: WorkerOptions): Worker;
 };
 
 interface WorkerGlobalScopeEventMap {
@@ -5239,7 +5239,7 @@ interface WorkerGlobalScope extends EventTarget, FontFaceSource, WindowOrWorkerG
     /** Returns workerGlobal. */
     readonly self: WorkerGlobalScope & typeof globalThis;
     /** Fetches each URL in urls, executes them one-by-one in the order they are passed, and then returns (or throws if something went amiss). */
-    importScripts(...urls: string[]): void;
+    importScripts(...urls: (string | URL)[]): void;
     addEventListener<K extends keyof WorkerGlobalScopeEventMap>(type: K, listener: (this: WorkerGlobalScope, ev: WorkerGlobalScopeEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
     addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
     removeEventListener<K extends keyof WorkerGlobalScopeEventMap>(type: K, listener: (this: WorkerGlobalScope, ev: WorkerGlobalScopeEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
@@ -5378,8 +5378,8 @@ interface XMLHttpRequest extends XMLHttpRequestEventTarget {
      *
      * Throws an "InvalidAccessError" DOMException if async is false, current global object is a Window object, and the timeout attribute is not zero or the responseType attribute is not the empty string.
      */
-    open(method: string, url: string): void;
-    open(method: string, url: string, async: boolean, username?: string | null, password?: string | null): void;
+    open(method: string, url: string | URL): void;
+    open(method: string, url: string | URL, async: boolean, username?: string | null, password?: string | null): void;
     /**
      * Acts as if the `Content-Type` header value for a response is mime. (It does not change the header.)
      *
@@ -5704,7 +5704,7 @@ declare var onunhandledrejection: ((this: DedicatedWorkerGlobalScope, ev: Promis
 /** Returns workerGlobal. */
 declare var self: WorkerGlobalScope & typeof globalThis;
 /** Fetches each URL in urls, executes them one-by-one in the order they are passed, and then returns (or throws if something went amiss). */
-declare function importScripts(...urls: string[]): void;
+declare function importScripts(...urls: (string | URL)[]): void;
 /** Dispatches a synthetic event event to target and returns true if either event's cancelable attribute value is false or its preventDefault() method was not invoked, and false otherwise. */
 declare function dispatchEvent(event: Event): boolean;
 declare var fonts: FontFaceSet;
